@@ -1,0 +1,8 @@
+{
+  "decorations": [
+    { "name": "Aged paper scrap", "image": "/img/deco/scrap-paper.webp", "kind": "scrap" },
+    { "name": "Pink paper strip", "image": "/img/deco/scrap-pink.webp", "kind": "scrap" },
+    { "name": "Newsprint scrap", "image": "/img/deco/scrap-newsprint.webp", "kind": "scrap" },
+    { "name": "Masking tape", "image": "/img/deco/tape.webp", "kind": "tape" }
+  ]
+}

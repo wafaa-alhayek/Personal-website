@@ -1,0 +1,198 @@
+# Pages CMS configuration — https://pagescms.org
+# Log in at app.pagescms.org with GitHub and open this repository.
+media:
+  input: img/uploads
+  output: /img/uploads
+  extensions: [jpg, jpeg, png, webp, tif, tiff]
+
+content:
+  # ------------------------------------------------------------------ works
+  - name: works
+    label: Works
+    type: file
+    path: content/works.json
+    format: json
+    fields:
+      - name: works
+        label: Works
+        type: object
+        list: true
+        description: Order doesn't matter. The site sorts works by capture number.
+        fields:
+          - { name: image, label: Image, type: image, required: true, description: "Upload the master. Smaller web versions are made automatically a minute after you save." }
+          - { name: ref, label: Capture number, type: string, description: "e.g. IMG_1175. Leave empty to take it from the file name." }
+          - name: set
+            label: Set
+            type: select
+            default: collage
+            options: { values: [collage, drawing] }
+          - { name: year, label: Year, type: string }
+          - { name: size, label: Size, type: string, description: "e.g. 21 × 29.7 cm" }
+          - { name: medium, label: Medium, type: string, default: Digital collage }
+          - { name: description, label: Description, type: text, description: Shown when the work is opened. Optional. }
+          - { name: alt, label: Alt text, type: text, description: "Describe what is visible, for screen readers. Not a title." }
+          - { name: featured, label: Feature on the front page, type: boolean, default: false, description: Only one work should have this on. }
+          - { name: big, label: Make bigger in the archive, type: boolean, default: false }
+          - { name: published, label: Show on the site, type: boolean, default: true }
+          - { name: tape, label: "Decoration: tape label", type: boolean, default: true }
+          - name: torn
+            label: "Decoration: torn edge"
+            type: select
+            default: none
+            options: { values: [none, left, right, both] }
+          - name: scribble
+            label: "Decoration: scribble"
+            type: select
+            default: none
+            options: { values: [none, loop, zigzag, circle, underline] }
+          - name: texture
+            label: "Decoration: texture"
+            type: select
+            default: grain
+            options: { values: [none, grain, halftone] }
+          - { name: width, label: Width (automatic), type: number, description: Filled in automatically. Leave as is. }
+          - { name: height, label: Height (automatic), type: number, description: Filled in automatically. Leave as is. }
+
+  # ---------------------------------------------------------------- writing
+  - name: writing
+    label: Writing
+    type: file
+    path: content/writing.json
+    format: json
+    fields:
+      - name: entries
+        label: Entries
+        type: object
+        list: true
+        description: Shown in the order listed here.
+        fields:
+          - { name: title, label: Title, type: string, required: true }
+          - { name: date, label: Date, type: date }
+          - name: kind
+            label: Kind
+            type: select
+            default: Essay
+            options: { values: [Essay, Fragment, Note, Poem] }
+          - { name: body, label: Text, type: text, description: Leave an empty line between paragraphs. }
+          - { name: published, label: Show on the site, type: boolean, default: true }
+          - { name: sample, label: Mark as sample, type: boolean, default: false }
+
+  # ------------------------------------------------------------------- data
+  - name: data
+    label: Data projects
+    type: file
+    path: content/data.json
+    format: json
+    fields:
+      - name: projects
+        label: Projects
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Title, type: string, required: true }
+          - { name: summary, label: Summary, type: text }
+          - { name: status, label: Status, type: string, description: "e.g. Ongoing, Published" }
+          - { name: image, label: Thumbnail, type: image, description: "Optional. Without one, a small sketch chart is drawn." }
+          - name: chart
+            label: Sketch chart (when no thumbnail)
+            type: select
+            default: bars
+            options: { values: [bars, scatter, steps] }
+          - { name: link, label: Link, type: string, description: Repo, notebook or write-up. }
+          - { name: published, label: Show on the site, type: boolean, default: true }
+          - { name: sample, label: Mark as sample, type: boolean, default: false }
+
+  # ------------------------------------------------------------ decorations
+  - name: decorations
+    label: Decoration library
+    type: file
+    path: content/decorations.json
+    format: json
+    fields:
+      - name: decorations
+        label: Decorations
+        type: object
+        list: true
+        description: Transparent PNG or WebP cut-outs. Scraps are also used as balance tiles in the archive.
+        fields:
+          - { name: name, label: Name, type: string }
+          - { name: image, label: Image, type: image }
+          - name: kind
+            label: Kind
+            type: select
+            default: scrap
+            options: { values: [scrap, botanical, texture, tape] }
+
+  # ------------------------------------------------------------- site-wide
+  - name: site
+    label: Site settings
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - { name: name, label: Name, type: string }
+      - { name: roles, label: Roles line, type: string }
+      - { name: accent, label: Accent colour, type: string, description: "Hex colour, e.g. #D6177A" }
+      - name: hero
+        label: Front page
+        type: object
+        fields:
+          - { name: eyebrow, label: Small label, type: string }
+          - { name: headline, label: Headline, type: string }
+          - { name: intro, label: Intro, type: text }
+          - { name: note, label: Handwritten note, type: string, description: "Separate lines with /" }
+          - { name: sideDecoration, label: Exhibition note decoration, type: image }
+      - name: exhibition
+        label: Exhibition note
+        type: object
+        fields:
+          - { name: show, label: Show, type: boolean }
+          - { name: label, label: Label, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: dates, label: Dates, type: string }
+          - { name: venue, label: Venue, type: string }
+          - { name: detail, label: Extra line, type: string }
+          - { name: link, label: Link, type: string }
+      - name: archive
+        label: Archive
+        type: object
+        fields:
+          - { name: headline, label: Headline, type: string }
+          - { name: intro, label: Intro, type: text }
+          - { name: rowsPerPage, label: Rows per page, type: number }
+          - { name: balanceNote, label: Handwritten balance tile, type: string, description: "Separate lines with /" }
+      - name: writing
+        label: Writing section
+        type: object
+        fields:
+          - { name: headline, label: Headline, type: string }
+          - { name: decoration, label: Edge decoration, type: image }
+      - name: data
+        label: Data section
+        type: object
+        fields:
+          - { name: headline, label: Headline, type: string }
+          - { name: intro, label: Intro, type: text }
+      - name: about
+        label: About
+        type: object
+        fields:
+          - { name: headline, label: Headline, type: string }
+          - { name: body, label: Text, type: text, description: Leave an empty line between paragraphs. }
+          - { name: decoration, label: Decoration, type: image }
+      - name: game
+        label: Draw a plate
+        type: object
+        fields:
+          - { name: show, label: Show, type: boolean }
+          - { name: headline, label: Headline, type: string }
+          - { name: intro, label: Intro, type: string }
+          - { name: lines, label: Lines revealed with a card, type: string, list: true }
+      - name: contact
+        label: Contact
+        type: object
+        fields:
+          - { name: email, label: Email, type: string }
+          - { name: instagram, label: Instagram URL, type: string }
+          - { name: linkedin, label: LinkedIn URL, type: string }
+          - { name: github, label: GitHub URL, type: string }

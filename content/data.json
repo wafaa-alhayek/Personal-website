@@ -1,0 +1,7 @@
+{
+  "projects": [
+    { "title": "Temporal patterns", "summary": "Reading working rhythm out of the archive's own capture timestamps and file sizes.", "status": "Research idea", "chart": "bars", "image": "", "link": "", "sample": true },
+    { "title": "Visual classification", "summary": "Testing image clustering on the collage archive: what does a model group together, and why?", "status": "Planned", "chart": "scatter", "image": "", "link": "", "sample": true },
+    { "title": "Research notes", "summary": "Methodology, tools and ongoing experiments with running models locally.", "status": "Ongoing", "chart": "steps", "image": "", "link": "", "sample": true }
+  ]
+}

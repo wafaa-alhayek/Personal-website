@@ -2,62 +2,77 @@
 
 Personal site: digital collage and drawing, writing, data analysis. One page,
 no build step, no framework. Deployed as static files to Cloudflare Pages.
+Content is edited through Pages CMS (pagescms.org), which commits JSON to this
+repo.
 
 ---
 
 ## Files
 
 ```
-index.html     the entire site — markup, CSS, and the canvas generators
-dither.py      pipeline: masters -> duotone plates + optimised web exports
-img/           generated output (not yet created)
+index.html               the whole site: markup, CSS, rendering JS
+content/*.json           all content (works, writing, data, decorations, site)
+.pages.yml               Pages CMS schema for those JSON files
+img/uploads/             masters uploaded through the CMS
+img/works/               generated: <ref>-1600.webp and <ref>-640.webp
+img/deco/                decoration cut-outs (transparent WebP)
+scripts/process_images.py  masters -> img/works + width/height into works.json
+.github/workflows/images.yml  runs process_images.py on every CMS save
+scripts/make_scraps.py   generated the starter torn-paper scraps
+dither.py                original duotone pipeline (not used by the site now)
 ```
 
 ## Run it
 
-Open `index.html` in a browser. There is no build step and no dependencies.
-Keep it that way unless there's a strong reason not to.
+The page fetches `content/*.json`, so it needs a local server:
+
+```
+python3 -m http.server   # then open http://localhost:8000
+```
+
+No build step and no dependencies. Keep it that way unless there's a strong
+reason not to.
 
 ---
 
 ## Design system
 
-Three values, fixed:
-
 | token      | value     | role                                    |
 |------------|-----------|-----------------------------------------|
 | `--ground` | `#15121C` | page background, near-black             |
-| `--paper`  | `#E6E2D6` | inverted content panels, plate grounds  |
-| `--accent` | `#D6177A` | the only chromatic colour on the page   |
+| `--paper`  | `#E6E2D6` | inverted content panels                 |
+| `--accent` | `#D6177A` | the only chromatic colour; overridable from site settings |
 
-The swatch row in the header is a **development control** for trying other
-accents. Remove it before launch.
+Type: **Bodoni Moda** display, **IBM Plex Mono** body, **Caveat** for the
+handwritten notes. Small text is uppercase with wide letter-spacing.
 
-Type: **Bodoni Moda** for display, **IBM Plex Mono** for everything else.
-Small text is uppercase with wide letter-spacing throughout.
+Layout follows the first inspiration mockup: dark hero (featured work, mini
+gallery, exhibition note), paper archive, then two checkerboard rows
+(game | writing, data | about).
 
-### The screen
+### Archive puzzle
 
-Every piece of generated art on the page — hero, side plate, footer band, the
-three charts — goes through one function, `screen()` / `plateFull()`:
+Works keep their true proportions and are never cropped. `buildRows()` packs
+them into justified rows (each row scaled to fill the width exactly). When the
+next work would squash a row below ~74% of the target height, or the final row
+is short, a **balance tile** (pink dot, count, handwritten note, scrap from
+the decoration library) is slotted in instead. Rows are grouped into pages
+(`archive.rowsPerPage`), navigated by the rail on the right / arrows on phone.
+Widths and heights come from works.json so layout never waits on images.
 
-1. a `tone(u, v, aspect)` function returns greyscale 0–1 for any point
-2. it's evaluated at up to **4× display resolution**
-3. thresholded against an 8×8 ordered Bayer matrix into exactly two colours
-4. drawn down to display size with `imageSmoothingEnabled = true`
+### Decorations
 
-Step 4 is the important one. The dither cells end up smaller than a screen
-pixel, so the browser averages them and the moiré reads as fine continuous
-texture. Rendering 1:1 produces coarse pixel noise instead — this was tried and
-looked wrong.
+Per work, set in the CMS and drawn by `decorate()`: tape label, torn edge
+(clip-path), scribble (SVG), texture (grain / halftone overlay). Section
+decorations (writing edge, about, exhibition note) are images from
+`content/decorations.json`.
 
-Tone functions use **hard edges**, not smooth gradients. `hatch()` draws ruled
-lines at a 30% duty cycle; `rings()` draws concentric lines over a solid fill.
-Hard edges are what beat against the dither grid to produce the ringing.
-Sine-based tone fields were tried and read as mush.
+### Draw a plate (the game)
 
-`dither.py` uses the same Bayer matrix, so generated art and processed
-photographs belong to the same visual system.
+Three face-down cards. Each back is the work screened to two colours with the
+same 8x8 Bayer matrix as `dither.py`, rendered at 2x and smoothed down (the
+original "screen" idea: keep `imageSmoothingEnabled` on). Picking one flips it
+to full colour with a line from `site.game.lines`.
 
 ---
 
@@ -85,22 +100,20 @@ anyway. Earlier work used Pinterest saves — those are not on the site.
 
 ## Outstanding
 
-- [ ] **Run the image pipeline.** 46 masters, ~600 MB total, largest 38 MB.
-      Nothing is web-ready yet.
-      ```
-      python3 dither.py ./masters ./img --ink "#D6177A" --paper "#15121C"
-      ```
-      Then wire `img/duo/` into the ledger rows and `img/web/` into the plate
-      overlay, replacing the placeholder text.
-- [ ] **Alt text per work.** Description, not title — describing what's visible
-      doesn't violate the untitled position. Required for screen readers.
-- [ ] **Real content.** Everything in Data and Writing is placeholder, written
-      to demonstrate what the sections hold. The metadata project (reading
-      working rhythm out of capture timestamps) is a genuinely good idea worth
-      actually doing.
-- [ ] Replace `hello@example.com` and the `#` links.
-- [ ] Remove the accent swatch row.
-- [ ] Favicon and social preview image.
+- [ ] **British Library cut-outs.** Botanical engravings with background
+      removed, for the decoration library. Blocked: this environment's network
+      denies flickr.com / wikimedia. Engravings on plain paper can be cut out
+      locally by mapping luminance to alpha; no API needed.
+- [ ] **Remaining works.** 9 of 46 are online. Add the rest through the CMS.
+- [ ] IMG_1230 and IMG_1237 were not in the original 46-work list (which has
+      IMG_1239). Confirm with Wafa.
+- [ ] **Alt text per work.** Description, not title. IMG_1070, IMG_1157 and
+      IMG_1175 have it.
+- [ ] **Real content.** Writing and Data entries are marked as samples.
+- [ ] Contact email and social links (site settings in the CMS).
+- [ ] Exhibition "learn more" link to the Pulp Stiction page on
+      lovelybutdead.com once it is live.
+- [ ] Social preview image is IMG_1175; replace with a purpose-made one.
 
 ---
 

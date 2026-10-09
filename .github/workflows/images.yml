@@ -1,0 +1,36 @@
+name: Process images
+
+# Runs when works are added or changed in the CMS: makes the web-sized
+# versions in img/works/ and records each work's width and height.
+on:
+  push:
+    paths:
+      - "content/works.json"
+      - "img/uploads/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: images-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install Pillow
+      - run: python3 scripts/process_images.py
+      - name: Commit generated images
+        run: |
+          git config user.name "image-bot"
+          git config user.email "image-bot@users.noreply.github.com"
+          git add img/works content/works.json
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "Process uploaded images"
+          git push

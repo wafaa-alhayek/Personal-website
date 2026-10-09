@@ -1,0 +1,58 @@
+{
+  "name": "Wafa Alhayek",
+  "roles": "Artist / Writer / Data practitioner",
+  "accent": "#D6177A",
+  "hero": {
+    "eyebrow": "Featured work",
+    "headline": "A collection of fragments, ideas and observations.",
+    "intro": "I make collages, write, and work with data. These are different ways of looking closely, at images, language and patterns, and of finding connections.",
+    "note": "images / ideas / observations",
+    "sideDecoration": "/img/deco/scrap-newsprint.webp"
+  },
+  "exhibition": {
+    "show": true,
+    "label": "Upcoming exhibition",
+    "title": "Pulp Stiction: Collage as an Act of Resistance",
+    "dates": "Oct 26 – Dec 11, 2026",
+    "venue": "Hopkins Hall Gallery, Columbus, Ohio",
+    "detail": "Opening reception October 30",
+    "link": ""
+  },
+  "archive": {
+    "headline": "Untitled works, in sequence.",
+    "intro": "Collages and drawings, numbered by the capture reference the phone gave each file. The works are untitled. The number is an address, not an interpretation.",
+    "rowsPerPage": 2,
+    "balanceNote": "images / ideas / observations"
+  },
+  "writing": {
+    "headline": "Notes, fragments, essays.",
+    "decoration": "/img/deco/scrap-pink.webp"
+  },
+  "data": {
+    "headline": "Patterns, systems & inquiry.",
+    "intro": "Each project starts from a question and ends with something reproducible."
+  },
+  "about": {
+    "headline": "The person behind the work.",
+    "body": "I'm Wafa Alhayek, an artist, writer and data practitioner working in Nablus. My practice moves between analogue and digital, intuition and analysis, image and text.\n\nThe images are untitled and will stay that way. Titles ask a work to explain itself, and these don't. What the index gives instead is an address: the capture number assigned when the file was made, kept in sequence.\n\nMuch of the source material comes from the British Library's Flickr Commons release: over a million public-domain images from digitised 17th, 18th and 19th century books.",
+    "decoration": "/img/deco/scrap-paper.webp"
+  },
+  "game": {
+    "show": true,
+    "headline": "Draw a plate.",
+    "intro": "Three works, face down. Choose one.",
+    "lines": [
+      "Some things become smaller when named too quickly.",
+      "An image can hold a contradiction without resolving it.",
+      "The number is an address, not an interpretation.",
+      "Every fragment was once part of something whole.",
+      "Look again. It was there the first time."
+    ]
+  },
+  "contact": {
+    "email": "",
+    "instagram": "",
+    "linkedin": "",
+    "github": ""
+  }
+}
