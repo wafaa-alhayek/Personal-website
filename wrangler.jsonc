@@ -1,0 +1,9 @@
+// Cloudflare Workers deploy config. The site is static files only, served
+// from the repository root. "name" must match the Worker in the dashboard.
+{
+  "name": "wafaalhayek-com",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "."
+  }
+}

@@ -658,7 +658,7 @@ async function boot(){
   try{
     const [site,works,writing,data,decos]=await Promise.all([get("content/site.json"),get("content/works.json"),get("content/writing.json"),get("content/data.json"),get("content/decorations.json").catch(()=>({decorations:[]}))]);
     SITE=site;WRITING=writing.entries||[];DATA=data.projects||[];DECOS=decos.decorations||[];
-    ALL=(works.works||[]).filter(w=>w.ref&&(w.image||w.width)&&w.published!==false).sort((a,b)=>num(a.ref)-num(b.ref));
+    ALL=(works.works||[]).filter(w=>w.ref&&w.width&&w.published!==false).sort((a,b)=>num(a.ref)-num(b.ref));
     WORKS=ALL.slice();
   }catch(e){
     document.querySelector("main").insertAdjacentHTML("afterbegin",`<p class="load-error">The site content could not be loaded (${esc(e.message)}). If you opened this file directly, run <code>python3 -m http.server</code> in the folder and visit http://localhost:8000 instead.</p>`);
