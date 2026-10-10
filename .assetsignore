@@ -1,0 +1,15 @@
+# Files in the repo that should not be served on the website.
+.git
+.github
+.pages.yml
+.gitignore
+.assetsignore
+wrangler.jsonc
+scripts
+dither.py
+CLAUDE.md
+README.md
+node_modules
+# Masters can exceed Cloudflare's 25 MB per-file limit; the site serves the
+# generated versions in img/works instead.
+img/uploads
