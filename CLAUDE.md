@@ -117,32 +117,23 @@ anyway. Earlier work used Pinterest saves — those are not on the site.
 
 ---
 
-## Deploy — Cloudflare Pages
+## Deploy — Cloudflare Workers (static assets)
 
-The domain is already registered at Cloudflare, so DNS is handled internally
-and no records need copying anywhere.
+The site is served by the `wafaalhayek-com` Worker, connected to this repo
+under Settings → Builds (branch `main`, no build command, deploy command
+`npx wrangler deploy`). Every push to `main` deploys. Builds only start on a
+push made after the repo is connected.
 
-Manual:
-1. Dashboard → Workers & Pages → Create → Pages → Upload assets
-2. Drag the folder containing `index.html` and `img/`
-3. Custom domains tab → add the domain → Cloudflare wires it up
-
-Or with wrangler:
-```
-npm install -g wrangler
-wrangler login
-wrangler pages deploy . --project-name wafaalhayek
-```
-
-Connecting a GitHub repo makes every push deploy automatically. Worth doing.
+- `wrangler.jsonc` serves the repo root as static assets; its `name` must
+  match the Worker or the build fails.
+- `.assetsignore` keeps repo internals and `img/uploads` (masters, can exceed
+  the 25 MiB per-file limit) off the site.
+- The domain should be attached as a Custom Domain (Settings → Domains &
+  Routes), for both `wafaalhayek.com` and `www.wafaalhayek.com`.
 
 ---
 
 ## Notes
 
 - `image-rendering: pixelated` must stay off. The smoothing is the effect.
-- Drift only re-renders the rows the hero disc occupies; a full 4× re-render
-  per frame is too expensive. The motion toggle re-renders at full quality.
-- `prefers-reduced-motion` disables drift.
-- Ring pitch (`pitch` in `composeHero`) is the main dial for how fine the
-  interference reads. Higher is finer.
+- `prefers-reduced-motion` disables the card flip and page animations.
