@@ -5,5 +5,7 @@
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "."
-  }
+  },
+  // Lets Cloudflare build a preview copy for pushes to branches other than main.
+  "previews": {}
 }
